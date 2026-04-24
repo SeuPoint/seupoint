@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeuPoint. — Sites · Design · Tráfego Pago</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --preto: #0A0A0A;
+      --roxo: #7B2FFF;
+      --amarelo: #FFE033;
+      --branco: #F5F5F5;
+      --roxo-escuro: #5a1fd1;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--preto);
+      color: var(--branco);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(123,47,255,0.15);
+    }
+
+    .nav-logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--branco);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--roxo); }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: rgba(245,245,245,0.6);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--branco); }
+
+    .nav-cta {
+      background: var(--roxo) !important;
+      color: var(--branco) !important;
+      padding: 10px 22px !important;
+      border-radius: 100px;
+      font-weight: 600 !important;
+    }
+
+    .nav-cta:hover { background: var(--roxo-escuro) !important; }
+
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 10%, rgba(123,47,255,0.35) 0%, transparent 70%),
+        var(--preto);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(123,47,255,0.15);
+      border: 1px solid rgba(123,47,255,0.4);
+      color: #c49bff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border-radius: 100px;
+      margin-bottom: 36px;
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 7vw, 88px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      max-width: 820px;
+      margin-bottom: 28px;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(90deg, var(--roxo), var(--amarelo));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 20px);
+      color: rgba(245,245,245,0.55);
+      max-width: 500px;
+      line-height: 1.65;
+      margin-bottom: 48px;
+      font-weight: 400;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--roxo), #a855f7);
+      color: var(--branco);
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 32px rgba(123,47,255,0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 48px rgba(123,47,255,0.6);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(245,245,245,0.18);
+      color: var(--branco);
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--roxo);
+      background: rgba(123,47,255,0.08);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 56px;
+      background: linear-gradient(to bottom, var(--roxo), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    section { padding: 100px 24px; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--roxo);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: rgba(245,245,245,0.5);
+      line-height: 1.65;
+      max-width: 540px;
+      font-weight: 400;
+    }
+
+    #servicos { background: var(--preto); }
+
+    .servicos-header { margin-bottom: 64px; }
+
+    .servicos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .servico-card {
+      background: #111111;
+      padding: 48px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .servico-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--roxo), var(--amarelo));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .servico-card:hover::before { transform: scaleX(1); }
+    .servico-card:hover { background: #161616; }
+
+    .servico-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--roxo);
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .servico-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    .servico-desc {
+      font-size: 14px;
+      color: rgba(245,245,245,0.5);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .servico-itens {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .servico-itens li {
+      font-size: 13px;
+      color: rgba(245,245,245,0.65);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .servico-itens li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--amarelo);
+      flex-shrink: 0;
+    }
+
+    #porque { background: #0d0d0d; }
+
+    .porque-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .porque-lista {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 36px;
+    }
+
+    .porque-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .porque-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(123,47,255,0.12);
+      border: 1px solid rgba(123,47,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .porque-item-text h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .porque-item-text p {
+      font-size: 13px;
+      color: rgba(245,245,245,0.5);
+      line-height: 1.6;
+    }
+
+    .porque-visual {
+      background: linear-gradient(135deg, rgba(123,47,255,0.12), rgba(255,224,51,0.04));
+      border: 1px solid rgba(123,47,255,0.2);
+      border-radius: 24px;
+      padding: 44px 40px;
+    }
+
+    .metric-row {
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(245,245,245,0.06);
+    }
+
+    .metric-row:first-child { padding-top: 0; }
+    .metric-row:last-child { padding-bottom: 0; border-bottom: none; }
+
+    .metric-label {
+      font-size: 11px;
+      color: rgba(245,245,245,0.35);
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--branco);
+    }
+
+    .metric-value span { color: var(--amarelo); }
+
+    #processo { background: var(--preto); }
+
+    .processo-header { margin-bottom: 64px; }
+
+    .processo-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .step {
+      padding: 40px 28px;
+      background: #111111;
+    }
+
+    .step-num {
+      font-size: 52px;
+      font-weight: 700;
+      color: rgba(123,47,255,0.15);
+      line-height: 1;
+      margin-bottom: 20px;
+      letter-spacing: -2px;
+    }
+
+    .step-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: rgba(245,245,245,0.5);
+      line-height: 1.65;
+    }
+
+    #cta-final {
+      background: linear-gradient(135deg, rgba(123,47,255,0.18), rgba(255,224,51,0.04), rgba(123,47,255,0.08));
+      border-top: 1px solid rgba(123,47,255,0.2);
+      border-bottom: 1px solid rgba(123,47,255,0.2);
+      text-align: center;
+      padding: 120px 24px;
+    }
+
+    #cta-final .section-title { max-width: 580px; margin: 0 auto 16px; }
+    #cta-final .section-sub { max-width: 440px; margin: 0 auto 48px; }
+
+    .btn-instagram {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 44px;
+      border-radius: 100px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      color: var(--branco);
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 32px rgba(131,58,180,0.35);
+    }
+
+    .btn-instagram:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 56px rgba(131,58,180,0.55);
+    }
+
+    footer {
+      background: #080808;
+      border-top: 1px solid rgba(245,245,245,0.05);
+      padding: 60px 48px 40px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--branco);
+      text-decoration: none;
+    }
+
+    .footer-logo span { color: var(--roxo); }
+
+    .footer-tagline {
+      font-size: 13px;
+      color: rgba(245,245,245,0.35);
+      margin-top: 10px;
+      max-width: 220px;
+      line-height: 1.6;
+    }
+
+    .footer-ig-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      background: rgba(123,47,255,0.1);
+      border: 1px solid rgba(123,47,255,0.25);
+      color: var(--branco);
+      padding: 10px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .footer-ig-link:hover {
+      background: rgba(123,47,255,0.2);
+      border-color: var(--roxo);
+    }
+
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(245,245,245,0.25);
+      margin-bottom: 16px;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 14px;
+      color: rgba(245,245,245,0.55);
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover { color: var(--branco); }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(245,245,245,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 12px;
+      color: rgba(245,245,245,0.2);
+    }
+
+    .footer-bottom a {
+      font-size: 12px;
+      color: rgba(245,245,245,0.3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-bottom a:hover { color: var(--roxo); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .servicos-grid { grid-template-columns: 1fr; }
+      .porque-inner { grid-template-columns: 1fr; gap: 48px; }
+      .processo-steps { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 72px 20px; }
+      .processo-steps { grid-template-columns: 1fr; }
+      footer { padding: 48px 20px 32px; }
+      .footer-inner { flex-direction: column; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#hero" class="nav-logo">SeuPoint<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#porque">Por que a SeuPoint</a></li>
+      <li><a href="#processo">Como funciona</a></li>
+      <li>
+        <a href="https://www.instagram.com/seupoint.br" target="_blank" rel="noopener noreferrer" class="nav-cta">
+          Fale com a gente
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <section id="hero">
+    <span class="hero-badge">Sites · Design · Tráfego Pago</span>
+    <h1 class="hero-title">
+      Presença online que<br>
+      <span class="highlight">gera resultado</span><br>
+      de verdade.
+    </h1>
+    <p class="hero-sub">
+      Identidade visual, site e anúncios que trabalham juntos para fazer seu negócio crescer.
+    </p>
+    <div class="hero-buttons">
+      <a href="https://www.instagram.com/seupoint.br" target="_blank" rel="noopener noreferrer" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+        Começar agora
+      </a>
+      <a href="#servicos" class="btn-secondary">Ver serviços</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section id="servicos">
+    <div class="container">
+      <div class="servicos-header">
+        <p class="section-label">O que fazemos</p>
+        <h2 class="section-title">Tudo que seu negócio<br>precisa para crescer online.</h2>
+      </div>
+      <div class="servicos-grid">
+        <div class="servico-card">
+          <span class="servico-num">01</span>
+          <h3 class="servico-title">Brand & Posicionamento</h3>
+          <p class="servico-desc">Sua marca precisa ser reconhecida antes de ser lembrada. Criamos identidades que comunicam quem você é de imediato.</p>
+          <ul class="servico-itens">
+            <li>Identidade visual completa</li>
+            <li>Logotipo e variações</li>
+            <li>Paleta, tipografia e guia de marca</li>
+            <li>Posicionamento estratégico</li>
+          </ul>
+        </div>
+        <div class="servico-card">
+          <span class="servico-num">02</span>
+          <h3 class="servico-title">Criação de Sites</h3>
+          <p class="servico-desc">Sites que carregam rápido, convertem visitantes e representam sua marca com profissionalismo real.</p>
+          <ul class="servico-itens">
+            <li>Design sob medida</li>
+            <li>Otimizado para conversão</li>
+            <li>Responsivo para mobile</li>
+            <li>Pronto para crescer</li>
+          </ul>
+        </div>
+        <div class="servico-card">
+          <span class="servico-num">03</span>
+          <h3 class="servico-title">Marketing com Ads</h3>
+          <p class="servico-desc">Anúncios pagos gerenciados por quem entende de estratégia e foca no retorno real do seu investimento.</p>
+          <ul class="servico-itens">
+            <li>Meta Ads e Google Ads</li>
+            <li>Criação de criativos</li>
+            <li>Gestão e otimização contínua</li>
+            <li>Relatórios transparentes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="porque">
+    <div class="container">
+      <div class="porque-inner">
+        <div>
+          <p class="section-label">Por que a SeuPoint</p>
+          <h2 class="section-title">Entrega rápida.<br>Atenção real.</h2>
+          <p class="section-sub">Somos uma agência enxuta e focada. Sem processos inflados, sem promessas vazias. Só o que gera resultado para o seu negócio.</p>
+          <ul class="porque-lista">
+            <li class="porque-item">
+              <div class="porque-dot">⚡</div>
+              <div class="porque-item-text">
+                <h4>Entrega ágil</h4>
+                <p>Processos diretos que garantem velocidade sem abrir mão da qualidade.</p>
+              </div>
+            </li>
+            <li class="porque-item">
+              <div class="porque-dot">🎯</div>
+              <div class="porque-item-text">
+                <h4>Foco em resultado</h4>
+                <p>Cada decisão é tomada pensando no impacto real para o seu negócio.</p>
+              </div>
+            </li>
+            <li class="porque-item">
+              <div class="porque-dot">🤝</div>
+              <div class="porque-item-text">
+                <h4>Atendimento próximo</h4>
+                <p>Você fala com quem executa. Sem intermediários, sem ruído.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="porque-visual">
+          <div class="metric-row">
+            <p class="metric-label">Do briefing ao ar</p>
+            <p class="metric-value">Rápido <span>✓</span></p>
+          </div>
+          <div class="metric-row">
+            <p class="metric-label">Serviços integrados</p>
+            <p class="metric-value">Brand + Site <span>+ Ads</span></p>
+          </div>
+          <div class="metric-row">
+            <p class="metric-label">Presença digital</p>
+            <p class="metric-value">Do zero <span>ao topo</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="processo">
+    <div class="container">
+      <div class="processo-header">
+        <p class="section-label">Como funciona</p>
+        <h2 class="section-title">Simples, direto<br>e sem enrolação.</h2>
+      </div>
+      <div class="processo-steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3 class="step-title">Briefing</h3>
+          <p class="step-desc">Você conta sobre seu negócio, seu público e o que quer alcançar. A gente escuta de verdade.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3 class="step-title">Estratégia</h3>
+          <p class="step-desc">Definimos o que faz mais sentido para você agora: marca, site ou tráfego. Ou os três.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3 class="step-title">Execução</h3>
+          <p class="step-desc">Mãos na massa. Entregamos com agilidade e mantemos você por dentro de cada etapa.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h3 class="step-title">Resultado</h3>
+          <p class="step-desc">Sua presença digital no ar, funcionando e gerando o que importa: crescimento de verdade.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta-final">
+    <div class="container">
+      <p class="section-label">Pronto para começar?</p>
+      <h2 class="section-title">Seu negócio merece um<br>ponto de partida melhor.</h2>
+      <p class="section-sub">Fale com a gente pelo Instagram e descubra como podemos levar sua presença digital para outro nível.</p>
+      <a href="https://www.instagram.com/seupoint.br" target="_blank" rel="noopener noreferrer" class="btn-instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+        Falar com a SeuPoint
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <a href="#hero" class="footer-logo">SeuPoint<span>.</span></a>
+        <p class="footer-tagline">Sites que vendem. Anúncios que convertem. Design que posiciona.</p>
+        <a href="https://www.instagram.com/seupoint.br" target="_blank" rel="noopener noreferrer" class="footer-ig-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+          @seupoint.br
+        </a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Serviços</p>
+        <a href="#servicos">Brand & Posicionamento</a>
+        <a href="#servicos">Criação de Sites</a>
+        <a href="#servicos">Marketing com Ads</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Empresa</p>
+        <a href="#porque">Por que a SeuPoint</a>
+        <a href="#processo">Como funciona</a>
+        <a href="https://www.instagram.com/seupoint.br" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 SeuPoint. Todos os direitos reservados.</p>
+      <a href="https://www.instagram.com/seupoint.br" target="_blank" rel="noopener noreferrer">@seupoint.br</a>
+    </div>
+  </footer>
+
+</body>
+</html>
